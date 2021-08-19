@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class LogisticRegression:
     """
     Implement logistic regression with SGD.
@@ -17,11 +20,18 @@ class LogisticRegression:
         """
         if self._x is None or self._y is None:
             raise ValueError('All methods can be called after fit method is called.')
+           
+        loss = np.sum(self._y * np.log(self.sigmoid(self._x)) + (1 - self._y) * np.log(1 - self.sigmoid(self._x)))
+
+        return -loss
 
     def gradient(self, x, y):
         """
-        TODO: Compute the gradient of the loss function.
+        Compute the gradient of the loss function.
         """
+        x_vector = x.reshape(-1, 1).T
+        x = np.insert(1, 1, x)
+        return -(y - self.sigmoid(x_vector)[0]) * x
 
     def sigmoid(self, x):
         """
@@ -32,6 +42,11 @@ class LogisticRegression:
         if self._weights is None:
             raise ValueError('All methods can be called after fit method is called.')
 
+        ones = np.ones(shape=(x.shape[0],)).reshape(-1, 1)
+        x = np.append(ones, x, axis=1)
+
+        return 1 / (1 + np.exp(-x @ self._weights))
+
     def fit(self, x, y):
         """
         TODO: normalize the data and fit the logistic regression.
@@ -39,11 +54,16 @@ class LogisticRegression:
         :param y: labels
         :returns: None if can't fit, weights, if fitted.
         """
-        self._weights = None  # TODO: initialize weights here
         self._x = x
         self._y = y
+        self._weights = np.zeros(self._x.shape[1] + 1) 
 
-        # TODO: SGD here
+        loss = self.loss_function()
+        while loss > 282:
+            i = np.random.randint(0, self._x.shape[0] - 1)
+            gradient = self.gradient(self._x[i], self._y[i])
+            self._weights -= self._lr * gradient
+            loss = self.loss_function()
 
         return self._weights
 

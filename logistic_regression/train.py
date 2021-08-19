@@ -1,6 +1,6 @@
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
+from log_reg import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score, confusion_matrix
 import pandas as pd
 import numpy as np
