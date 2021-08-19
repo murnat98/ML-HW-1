@@ -33,5 +33,5 @@ print('acc:', accuracy_score(y_test, y_pred))
 print('f1:', f1_score(y_test, y_pred))
 print('recall:', recall_score(y_test, y_pred))
 print('precision:', precision_score(y_test, y_pred))
-print('confusion:', confusion_matrix(y_test, y_pred))
+print('confusion: ', confusion_matrix(y_test, y_pred))
 
